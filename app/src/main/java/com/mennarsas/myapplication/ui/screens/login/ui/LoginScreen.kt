@@ -91,15 +91,23 @@ fun Login(
     onTogglePasswordVisibility: () -> Unit,
     onLoginClick: () -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         HeaderImage()
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Inicio de sesión",
+            color = Color.White,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
         EmailFiled(
             value = uiState.email,
             onValueChange = onEmailChange,
             enabled = !uiState.isLoading
         )
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         PasswordFiled(
             value = uiState.password,
             onValueChange = onPasswordChange,
@@ -107,14 +115,37 @@ fun Login(
             onTogglePasswordVisibility = onTogglePasswordVisibility,
             enabled = !uiState.isLoading
         )
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         LoginButton(
             enabled = uiState.isLoginEnabled && !uiState.isLoading,
             isLoading = uiState.isLoading,
             onClick = onLoginClick
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "¿Has olvidado la contraseña? Aqui",
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            text = "No tienes una cuenta?",
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Registrarme",
+            color = Color(0xFF00796B), // Usa un color similar al botón de inicio de sesión
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = "o",
+            color = Color.Gray
+        )
+        Text(
+            text = "Ingresar como usuario temporal",
+            color = Color.Gray
+        )
     }
-
 }
 
 @Composable
