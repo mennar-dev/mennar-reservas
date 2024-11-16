@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.mennarsas.myapplication.ui.theme.MennarreservasTheme
+import com.mennarsas.myapplication.Navigation.AppNavigation
+import com.mennarsas.myapplication.theme.MennarreservasTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

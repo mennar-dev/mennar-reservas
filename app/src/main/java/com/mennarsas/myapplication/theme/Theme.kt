@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.theme
+package com.mennarsas.myapplication.theme
 
 import android.app.Activity
 import android.os.Build

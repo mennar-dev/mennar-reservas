@@ -1,87 +1,67 @@
 package com.mennarsas.myapplication.ui.components
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults.containerColor
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mennarsas.myapplication.ui.theme.PrimaryColor
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.mennarsas.myapplication.Navigation.NavigationItem
+import com.mennarsas.myapplication.theme.PrimaryColor
 
 @Composable
-fun NavigationMenu(selectedOption: Int, onOptionSelected: (Int) -> Unit) {
-    Surface(
+fun NavigationMenu(navController: NavHostController) {
+    NavigationBar(
+        containerColor = Color.White,
+        contentColor = contentColorFor(containerColor),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(8.dp),
-       // elevation = 4.dp
-    ){
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            MenuOption(
-                icon = Icons.Default.DateRange,
-                title = "Reservar",
-                isSelected = selectedOption == 0,
-                onClick = { onOptionSelected(0) }
-            )
-            MenuOption(
-                icon = Icons.Default.AccountBox,
-                title = "Mis reservas",
-                isSelected = selectedOption == 1,
-                onClick = { onOptionSelected(1) }
-            )
-        }
-    }
-
-}
-
-@Composable
-fun MenuOption(icon: ImageVector, title: String, isSelected: Boolean, onClick: () -> Unit) {
-    Surface(
-        modifier = Modifier
-            .clickable { onClick() }
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp),
-        color = if (isSelected) Color.Gray.copy(alpha = 0.2f) else Color.Transparent
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = icon,
-                tint = if (isSelected) PrimaryColor else Color.Gray,
-                contentDescription = null,
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = title,
-                style = TextStyle(
-                    color = if (isSelected) PrimaryColor else Color.Gray,
-                    fontWeight = FontWeight.Medium
+            .drawBehind {
+                val borderSize = 1.dp.toPx()
+                drawLine(
+                    color = Color.Gray,
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, 0f),
+                    strokeWidth = borderSize
                 )
+            },
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        val items = NavigationItem.getItems()
+
+        items.forEach { item ->
+            NavigationBarItem(
+                icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
+                label = { Text(text = item.title) },
+                selected = currentRoute == item.route,
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = PrimaryColor,
+                    selectedIconColor = Color.White,
+                    selectedTextColor = PrimaryColor,
+                    unselectedIconColor = Color.Gray,
+                    unselectedTextColor = Color.Gray
+                ),
+                onClick = {
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
