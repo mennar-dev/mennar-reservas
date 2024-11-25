@@ -23,7 +23,7 @@ fun Header(onLogout: () -> Unit) {
         ),
         title = {
             Text(
-                text = "Mennar Sas",
+                text = "MENNAR SAS",
                 style = MaterialTheme.typography.titleLarge
             )
         },
