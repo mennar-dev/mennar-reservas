@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.mennarsas.myapplication.Navigation.NavigationItem
+import com.mennarsas.myapplication.navigation.NavigationItem
 import com.mennarsas.myapplication.theme.PrimaryColor
 
 @Composable

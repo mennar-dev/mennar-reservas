@@ -3,7 +3,7 @@ package com.mennarsas.myapplication.ui
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.mennarsas.myapplication.Navigation.MainNavHost
+import com.mennarsas.myapplication.navigation.MainNavHost
 import com.mennarsas.myapplication.ui.components.Header
 import com.mennarsas.myapplication.ui.components.NavigationMenu
 

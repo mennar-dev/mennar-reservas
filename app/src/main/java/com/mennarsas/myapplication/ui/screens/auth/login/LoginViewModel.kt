@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.login
+package com.mennarsas.myapplication.ui.screens.auth.login
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.delay
