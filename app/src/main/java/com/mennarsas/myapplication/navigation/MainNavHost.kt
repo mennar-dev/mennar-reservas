@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mennarsas.myapplication.ui.screens.home.ReservarScreen
+import com.mennarsas.myapplication.ui.screens.home.HomeScreen
 import com.mennarsas.myapplication.ui.screens.my_reservations.MyReservationsScreen
 
 @Composable
@@ -18,7 +18,7 @@ fun MainNavHost(navController: NavHostController, paddingValues: PaddingValues) 
         modifier = Modifier.padding(paddingValues)
     ){
         composable(NavigationItem.Home.route) {
-            ReservarScreen(navController = navController)
+            HomeScreen(navController = navController)
         }
         composable(NavigationItem.MyReservations.route){
             MyReservationsScreen()

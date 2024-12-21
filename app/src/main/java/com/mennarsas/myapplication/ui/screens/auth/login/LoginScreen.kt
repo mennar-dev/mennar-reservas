@@ -29,7 +29,7 @@ import com.mennarsas.myapplication.theme.PrimaryColor
 import com.mennarsas.myapplication.ui.components.CustomTextField
 import kotlinx.coroutines.launch
 import com.mennarsas.myapplication.ui.components.OutlinedButton
-import com.mennarsas.myapplication.ui.components.Button
+import com.mennarsas.myapplication.ui.components.CustomButton
 
 @Composable
 fun LoginScreen(
@@ -154,11 +154,12 @@ fun Login(
         Spacer(modifier = Modifier.height(12.dp))
         RecoverPassword(onClick = onRecoverPasswordClick)
         Spacer(modifier = Modifier.height(12.dp))
-        Button(
+        CustomButton(
             enabled = uiState.isLoginEnabled && !uiState.isLoading,
             isLoading = uiState.isLoading,
             onClick = onLoginClick,
-            title = "Iniciar Sesión"
+            buttonText = "Iniciar Sesión",
+            loadingText = "Cargando ..."
         )
         Spacer(modifier = Modifier.height(40.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {

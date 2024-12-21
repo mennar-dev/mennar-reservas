@@ -2,7 +2,7 @@ package com.mennarsas.myapplication.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
 // Clase para representar las opciones de navegación
@@ -13,8 +13,8 @@ sealed class NavigationItem(
 ) {
     data object Home : NavigationItem(
         route = "home",
-        title = "Reservar",
-        icon = Icons.Default.DateRange
+        title = "Inicio",
+        icon = Icons.Rounded.Home
     )
 
     data object MyReservations : NavigationItem(

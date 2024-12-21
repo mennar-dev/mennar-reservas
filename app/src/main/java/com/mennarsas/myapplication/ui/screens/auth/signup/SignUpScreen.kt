@@ -39,7 +39,7 @@ import com.mennarsas.myapplication.theme.PrimaryColor
 import com.mennarsas.myapplication.ui.components.CustomTextField
 import kotlinx.coroutines.launch
 import com.mennarsas.myapplication.ui.components.OutlinedButton
-import com.mennarsas.myapplication.ui.components.Button
+import com.mennarsas.myapplication.ui.components.CustomButton
 
 @Composable
 fun SignUpScreen(
@@ -209,11 +209,12 @@ fun SignUp(
             }
         )
         Spacer(modifier = Modifier.height(12.dp))
-        Button(
+        CustomButton(
             enabled = uiState.isSignUpEnabled && !uiState.isLoading,
             isLoading = uiState.isLoading,
             onClick = onSignUpClick,
-            title = "Registrarme"
+            buttonText = "Registrarme",
+            loadingText = "Cargando ..."
         )
         Spacer(modifier = Modifier.height(40.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {

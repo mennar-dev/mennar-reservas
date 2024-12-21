@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mennarsas.myapplication.theme.PrimaryColor
 import com.mennarsas.myapplication.ui.components.CustomTextField
-import com.mennarsas.myapplication.ui.components.Button
+import com.mennarsas.myapplication.ui.components.CustomButton
 
 @Composable
 fun RecoverPasswordScreen(onBackToLogin: () -> Boolean) {
@@ -54,11 +54,12 @@ fun RecoverPasswordContent(onBackToLogin: () -> Boolean, modifier: Modifier) {
             placeholder = "Correo electrónico"
         )
         Spacer(Modifier.height(10.dp))
-        Button(
+        CustomButton(
             enabled = true,
             isLoading = false,
             onClick = {onBackToLogin()},
-            title = "Enviar código"
+            buttonText = "Enviar código",
+            loadingText = "Cargando ..."
         )
     }
 }

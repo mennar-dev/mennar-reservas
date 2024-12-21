@@ -1,8 +1,10 @@
 package com.mennarsas.myapplication.ui.components
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,11 +17,12 @@ import com.mennarsas.myapplication.theme.ButtonColorDesabled
 import com.mennarsas.myapplication.theme.PrimaryColor
 
 @Composable
-fun Button (
+fun CustomButton (
     enabled: Boolean,
     isLoading: Boolean ,
     onClick: () -> Unit,
-    title: String
+    buttonText: String,
+    loadingText: String
 ){
     Button(
         onClick = onClick,
@@ -36,8 +39,10 @@ fun Button (
     ) {
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.White)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = loadingText, color = Color.White)
         } else {
-            Text(text = title)
+            Text(text = buttonText)
         }
     }
 }
