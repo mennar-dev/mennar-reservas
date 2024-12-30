@@ -18,7 +18,7 @@ fun MainNavHost(navController: NavHostController, paddingValues: PaddingValues) 
         modifier = Modifier.padding(paddingValues)
     ){
         composable(NavigationItem.Home.route) {
-            HomeScreen(navController = navController)
+            HomeScreen()
         }
         composable(NavigationItem.MyReservations.route){
             MyReservationsScreen()

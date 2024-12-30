@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.mennarsas.myapplication.ui.components.RequestActionButton
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mennarsas.myapplication.theme.PrimaryColor
@@ -30,7 +29,7 @@ import com.mennarsas.myapplication.ui.components.TicketBottomSheet
 
 
 @Composable
-fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen( viewModel: HomeViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
