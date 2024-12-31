@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.auth
+package com.mennarsas.myapplication.presentation.screens.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.animation.core.Animatable

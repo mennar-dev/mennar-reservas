@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mennarsas.myapplication.ui.screens.home.HomeScreen
-import com.mennarsas.myapplication.ui.screens.my_reservations.MyReservationsScreen
+import com.mennarsas.myapplication.presentation.screens.home.HomeScreen
+import com.mennarsas.myapplication.presentation.screens.my_reservations.MyReservationsScreen
 
 @Composable
 fun MainNavHost(navController: NavHostController, paddingValues: PaddingValues) {

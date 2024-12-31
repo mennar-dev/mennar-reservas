@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.home
+package com.mennarsas.myapplication.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mennarsas.myapplication.ui.components.RequestActionButton
+import com.mennarsas.myapplication.presentation.components.RequestActionButton
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mennarsas.myapplication.theme.PrimaryColor
-import com.mennarsas.myapplication.ui.components.TicketBottomSheet
+import com.mennarsas.myapplication.presentation.components.TicketBottomSheet
 
 
 @Composable

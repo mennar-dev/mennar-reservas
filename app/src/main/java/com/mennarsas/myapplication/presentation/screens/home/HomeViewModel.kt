@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.home
+package com.mennarsas.myapplication.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

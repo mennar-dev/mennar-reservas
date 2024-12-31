@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.auth.recoverypassword
+package com.mennarsas.myapplication.presentation.screens.auth.recoverypassword
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,8 +20,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mennarsas.myapplication.theme.PrimaryColor
-import com.mennarsas.myapplication.ui.components.CustomTextField
-import com.mennarsas.myapplication.ui.components.CustomButton
+import com.mennarsas.myapplication.presentation.components.CustomTextField
+import com.mennarsas.myapplication.presentation.components.CustomButton
 
 @Composable
 fun RecoverPasswordScreen(onBackToLogin: () -> Boolean) {

@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.components
+package com.mennarsas.myapplication.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

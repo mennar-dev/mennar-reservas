@@ -1,11 +1,11 @@
-package com.mennarsas.myapplication.ui
+package com.mennarsas.myapplication.presentation
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.mennarsas.myapplication.navigation.MainNavHost
-import com.mennarsas.myapplication.ui.components.Header
-import com.mennarsas.myapplication.ui.components.NavigationMenu
+import com.mennarsas.myapplication.presentation.components.Header
+import com.mennarsas.myapplication.presentation.components.NavigationMenu
 
 @Composable
 fun MainScreen(

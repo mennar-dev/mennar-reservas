@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mennarsas.myapplication.ui.MainScreen
-import com.mennarsas.myapplication.ui.screens.auth.SplashScreen
-import com.mennarsas.myapplication.ui.screens.auth.login.LoginScreen
-import com.mennarsas.myapplication.ui.screens.auth.recoverypassword.RecoverPasswordScreen
-import com.mennarsas.myapplication.ui.screens.auth.signup.SignUpScreen
+import com.mennarsas.myapplication.presentation.MainScreen
+import com.mennarsas.myapplication.presentation.screens.auth.SplashScreen
+import com.mennarsas.myapplication.presentation.screens.auth.login.LoginScreen
+import com.mennarsas.myapplication.presentation.screens.auth.recoverypassword.RecoverPasswordScreen
+import com.mennarsas.myapplication.presentation.screens.auth.signup.SignUpScreen
 
 @Composable
 fun AppNavigation() {

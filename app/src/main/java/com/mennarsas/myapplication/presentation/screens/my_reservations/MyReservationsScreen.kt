@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.screens.my_reservations
+package com.mennarsas.myapplication.presentation.screens.my_reservations
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

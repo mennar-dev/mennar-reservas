@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.ui.components
+package com.mennarsas.myapplication.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp

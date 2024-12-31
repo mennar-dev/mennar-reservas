@@ -1,13 +1,7 @@
-package com.mennarsas.myapplication.ui.screens.auth.signup
+package com.mennarsas.myapplication.presentation.screens.auth.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,12 +10,8 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,22 +26,23 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mennarsas.myapplication.R
 import com.mennarsas.myapplication.theme.PrimaryColor
-import com.mennarsas.myapplication.ui.components.CustomTextField
+import com.mennarsas.myapplication.presentation.components.CustomTextField
 import kotlinx.coroutines.launch
-import com.mennarsas.myapplication.ui.components.OutlinedButton
-import com.mennarsas.myapplication.ui.components.CustomButton
+import com.mennarsas.myapplication.presentation.components.OutlinedButton
+import com.mennarsas.myapplication.presentation.components.CustomButton
 
 @Composable
-fun SignUpScreen(
-    onSignUpSuccess: () -> Unit,
-    viewModel: SignUpViewModel = viewModel(),
-    onBackToLogin: () -> Unit
+fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    viewModel: LoginViewModel = viewModel(),
+    onSignUpClick: () -> Unit,
+    onRecoverPasswordClick: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // Efecto de mostrar Snackbar cuando hay un error
+    // Efecto para mostrar el Snackbar cuando hay un error
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let { message ->
             snackbarHostState.showSnackbar(
@@ -64,37 +55,38 @@ fun SignUpScreen(
     }
 
     Box(Modifier.fillMaxSize().background(Color.White).padding(16.dp)) {
-        SignUp(
-            modifier = Modifier.align(Alignment.Center),
+        Login(
+            Modifier.align(Alignment.Center),
             uiState = uiState,
-            onFirstNameChange = viewModel::onFirstNameChange,
-            onLastNameChange = viewModel::onLastNameChange,
             onEmailChange = viewModel::onEmailChange,
             onPasswordChange = viewModel::onPasswordChange,
-            onConfirmPasswordChange = viewModel::onConfirmPasswordChange,
             onTogglePasswordVisibility = viewModel::onTogglePasswordVisibility,
-            onToggleConfirmPasswordVisibility = viewModel::onToggleConfirmPasswordVisibility,
-            onSignUpClick = {
+            onLoginClick = {
                 scope.launch {
-                    if (viewModel.onSignUpClick()) {
-                        onSignUpSuccess()
+                    if (viewModel.onLoginClick()) {
+                        onLoginSuccess()
                     }
                 }
             },
-            onBackToLogin = onBackToLogin
+            onSignUpClick = onSignUpClick,
+            onRecoverPasswordClick = onRecoverPasswordClick
         )
-
-        // Snackbar para mostrar lo errores
+        // Snackbar para mostrar errores
         SnackbarHost(
             hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 16.dp)
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
         ) { data ->
             Snackbar(
                 containerColor = Color(0xFFB00020),
                 contentColor = Color.White,
                 dismissAction = {
                     IconButton(onClick = { data.dismiss() }) {
-                        Text(text = "x", color = Color.White)
+                        Text(
+                            text = "x",
+                            color = Color.White
+                        )
                     }
                 }
             ) {
@@ -105,58 +97,37 @@ fun SignUpScreen(
 }
 
 @Composable
-fun SignUp(
+fun Login(
     modifier: Modifier,
-    uiState: SignUpUiState,
-    onFirstNameChange: (String) -> Unit,
-    onLastNameChange: (String) -> Unit,
+    uiState: LoginUiState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onConfirmPasswordChange: (String) -> Unit,
     onTogglePasswordVisibility: () -> Unit,
-    onToggleConfirmPasswordVisibility: () -> Unit,
+    onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
-    onBackToLogin: () -> Unit
+    onRecoverPasswordClick: () -> Unit,
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Crear cuenta",
+            text = "Iniciar Sesión",
             color = PrimaryColor,
             modifier = Modifier.padding(bottom = 16.dp),
             fontSize = 50.sp,
             fontWeight = FontWeight.W500
         )
-
-        CustomTextField(  // Nombres
-            value = uiState.firstName,
-            onValueChange = onFirstNameChange,
-            enabled = !uiState.isLoading,
-            placeholder = "Nombres"
-        )
-
-        CustomTextField( // Apellidos
-            value = uiState.lastName,
-            onValueChange = onLastNameChange,
-            enabled = !uiState.isLoading,
-            placeholder = "Apellidos"
-        )
-
         CustomTextField(
-            // Correo electrónico
             value = uiState.email,
             onValueChange = onEmailChange,
             enabled = !uiState.isLoading,
-            keyboardType = KeyboardType.Email,
-            placeholder = "Correo electrónico",
+            placeholder = "Correo electrónico"
         )
-
-        CustomTextField( // Contraseña
+        CustomTextField(
             value = uiState.password,
             onValueChange = onPasswordChange,
-            placeholder = "Digita tu contraseña",
+            placeholder = "Contraseña",
             keyboardType = KeyboardType.Password,
             visualTransformation = if (uiState.isPasswordVisible)
                 VisualTransformation.None
@@ -180,40 +151,14 @@ fun SignUp(
                 }
             }
         )
-
-        CustomTextField( // Confirmar contraseña
-            value = uiState.confirmPassword,
-            onValueChange = onConfirmPasswordChange,
-            placeholder = "Confirmar contraseña",
-            keyboardType = KeyboardType.Password,
-            visualTransformation = if (uiState.isConfirmPasswordVisible)
-                VisualTransformation.None
-            else
-                PasswordVisualTransformation(),
-            enabled = !uiState.isLoading,
-            trailingIcon = {
-                IconButton(onClick = onToggleConfirmPasswordVisibility) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (uiState.isConfirmPasswordVisible)
-                                R.drawable.ic_visibility_off
-                            else
-                                R.drawable.ic_visibility
-                        ),
-                        contentDescription = if (uiState.isConfirmPasswordVisible)
-                            "Ocultar contraseña"
-                        else
-                            "Mostrar contraseña"
-                    )
-                }
-            }
-        )
+        Spacer(modifier = Modifier.height(12.dp))
+        RecoverPassword(onClick = onRecoverPasswordClick)
         Spacer(modifier = Modifier.height(12.dp))
         CustomButton(
-            enabled = uiState.isSignUpEnabled && !uiState.isLoading,
+            enabled = uiState.isLoginEnabled && !uiState.isLoading,
             isLoading = uiState.isLoading,
-            onClick = onSignUpClick,
-            buttonText = "Registrarme",
+            onClick = onLoginClick,
+            buttonText = "Iniciar Sesión",
             loadingText = "Cargando ..."
         )
         Spacer(modifier = Modifier.height(40.dp))
@@ -235,6 +180,23 @@ fun SignUp(
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
-        OutlinedButton(onClick = onBackToLogin, text = "Iniciar Sesión")
+        OutlinedButton(
+            onClick = onSignUpClick,
+            text = "Crear mi cuenta"
+        )
+    }
+}
+
+@Composable
+fun RecoverPassword(onClick: () -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+        TextButton(
+            onClick = onClick,
+        ) {
+            Text(
+                text = "Recuperar contraseña",
+                color = Color.Gray
+            )
+        }
     }
 }
