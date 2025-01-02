@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.mennarsas.myapplication"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.mennarsas.myapplication"
@@ -58,7 +58,16 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.material3)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.constraintlayout.compose.android)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.kotlinx.coroutines.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
