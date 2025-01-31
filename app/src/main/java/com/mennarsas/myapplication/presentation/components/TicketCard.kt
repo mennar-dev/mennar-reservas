@@ -1,5 +1,6 @@
 package com.mennarsas.myapplication.presentation.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -12,11 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mennarsas.myapplication.models.Ticket
+import com.mennarsas.myapplication.data.models.Ticket
 import com.mennarsas.myapplication.theme.PrimaryColor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun TicketCard(ticket: Ticket) {
     val dateFormat = SimpleDateFormat("EEE d MMMM yyyy 'a las' hh:mm a", Locale("es", "CO"))

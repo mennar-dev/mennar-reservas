@@ -3,6 +3,7 @@ package com.mennarsas.myapplication.presentation.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -24,7 +25,9 @@ fun CustomTextField(
     placeholder: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    trailingIcon: @Composable (() -> Unit)? = null
+    trailingIcon: @Composable (() -> Unit)? = null,
+    isError: Boolean = false,
+    errorMessage: String? = null
 ) {
     OutlinedTextField(
         value = value,
@@ -37,8 +40,8 @@ fun CustomTextField(
         singleLine = true,
         trailingIcon = trailingIcon,
         colors = TextFieldDefaults.colors(
-            focusedLabelColor = PrimaryColor,
-            focusedIndicatorColor = PrimaryColor,
+            focusedLabelColor = if (isError) Color.Red else PrimaryColor,
+            focusedIndicatorColor = if (isError) Color.Red else PrimaryColor,
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Gray,
@@ -47,5 +50,12 @@ fun CustomTextField(
         ),
         shape = RoundedCornerShape(8.dp)
     )
+    if (isError && errorMessage != null)  {
+        Text(
+            text = errorMessage,
+            color = Color.Red,
+            modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+        )
+    }
     Spacer(modifier = Modifier.height(8.dp))
 }

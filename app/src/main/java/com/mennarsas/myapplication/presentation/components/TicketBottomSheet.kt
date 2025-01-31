@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mennarsas.myapplication.models.Ticket
+import com.mennarsas.myapplication.data.models.Ticket
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

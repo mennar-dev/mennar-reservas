@@ -43,11 +43,11 @@ fun AppNavigation() {
 
         composable(NavGraph.Auth.SignUp.route) {
             SignUpScreen(
-                onSignUpSuccess = {
-                    navController.navigate(NavGraph.Main.route) {
-                        popUpTo(NavGraph.Auth.Login.route) { inclusive = true }
-                    }
-                },
+//                onSignUpSuccess = {
+//                    navController.navigate(NavGraph.Main.route) {
+//                        popUpTo(NavGraph.Auth.Login.route) { inclusive = true }
+//                    }
+//                },
                 onBackToLogin = {
                     navController.navigateUp()
                 }

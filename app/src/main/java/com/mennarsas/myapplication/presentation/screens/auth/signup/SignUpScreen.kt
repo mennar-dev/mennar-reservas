@@ -11,16 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,40 +29,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mennarsas.myapplication.R
+import com.mennarsas.myapplication.data.models.auth.signup.SignUpUiState
 import com.mennarsas.myapplication.theme.PrimaryColor
 import com.mennarsas.myapplication.presentation.components.CustomTextField
 import kotlinx.coroutines.launch
 import com.mennarsas.myapplication.presentation.components.OutlinedButton
 import com.mennarsas.myapplication.presentation.components.CustomButton
+import com.mennarsas.myapplication.presentation.components.CustomSnackbarToast
+import com.mennarsas.myapplication.presentation.components.SnackbarType
 
 @Composable
 fun SignUpScreen(
-    onSignUpSuccess: () -> Unit,
+    // onSignUpSuccess: () -> Unit,
     viewModel: SignUpViewModel = viewModel(),
     onBackToLogin: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    // val snackbarHostState = remember { SnackbarHostState() }
 
-    // Efecto de mostrar Snackbar cuando hay un error
-    LaunchedEffect(uiState.errorMessage) {
-        uiState.errorMessage?.let { message ->
-            snackbarHostState.showSnackbar(
-                message = message,
-                duration = SnackbarDuration.Long,
-                withDismissAction = true
-            )
-            viewModel.dismissError()
-        }
-    }
-
-    Box(Modifier.fillMaxSize().background(Color.White).padding(16.dp)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(16.dp)) {
         SignUp(
             modifier = Modifier.align(Alignment.Center),
             uiState = uiState,
-            onFullNameChange = viewModel::onFullNameChange,
-          //  onLastNameChange = viewModel::onLastNameChange,
+            onNamesChange = viewModel::onNamesChange,
+            onLastNamesChange = viewModel::onLastNamesChange,
             onEmailChange = viewModel::onEmailChange,
             onPasswordChange = viewModel::onPasswordChange,
             onConfirmPasswordChange = viewModel::onConfirmPasswordChange,
@@ -77,30 +66,34 @@ fun SignUpScreen(
             onSignUpClick = {
                 scope.launch {
                     if (viewModel.onSignUpClick()) {
-                        onSignUpSuccess()
+                        //  onSignUpSuccess()
                     }
                 }
             },
             onBackToLogin = onBackToLogin
         )
+        println("mensaje de exito en el screen")
+        println(uiState.formState.successfullMessage)
 
-        // Snackbar para mostrar lo errores
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 16.dp)
-        ) { data ->
-            Snackbar(
-                containerColor = Color(0xFFB00020),
-                contentColor = Color.White,
-                dismissAction = {
-                    IconButton(onClick = { data.dismiss() }) {
-                        Text(text = "x", color = Color.White)
-                    }
-                }
-            ) {
-                Text(data.visuals.message)
-            }
-        }
+        //  SnackbarToast para el mensaje exitoso
+        CustomSnackbarToast(
+            message = uiState.formState.successfullMessage,
+            type = SnackbarType.SUCCESS,
+            onDismiss = viewModel::dismissMessage,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 16.dp)
+        )
+
+        // SnackbarToast para el mensaje de error
+        CustomSnackbarToast(
+            message = uiState.formState.errorMessage,
+            type = SnackbarType.ERROR,
+            onDismiss = viewModel::dismissMessage,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 16.dp)
+        )
     }
 }
 
@@ -108,8 +101,8 @@ fun SignUpScreen(
 fun SignUp(
     modifier: Modifier,
     uiState: SignUpUiState,
-    onFullNameChange: (String) -> Unit,
-  //  onLastNameChange: (String) -> Unit,
+    onNamesChange: (String) -> Unit,
+    onLastNamesChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmPasswordChange: (String) -> Unit,
@@ -130,88 +123,93 @@ fun SignUp(
             fontWeight = FontWeight.W500
         )
 
-        CustomTextField(  // Nombres y apellidos
-            value = uiState.fullName,
-            onValueChange = onFullNameChange,
-            enabled = !uiState.isLoading,
-            placeholder = "Nombre(s) y apellidos"
+        CustomTextField(  // Nombre(s)
+            value = uiState.fields.names,
+            onValueChange = onNamesChange,
+            enabled = !uiState.formState.isLoading,
+            placeholder = "Nombre(s)"
         )
 
-//        CustomTextField( // Apellidos
-//            value = uiState.lastName,
-//            onValueChange = onLastNameChange,
-//            enabled = !uiState.isLoading,
-//            placeholder = "Apellidos"
-//        )
+        CustomTextField( // Apellidos
+            value = uiState.fields.lastNames,
+            onValueChange = onLastNamesChange,
+            enabled = !uiState.formState.isLoading,
+            placeholder = "Apellidos"
+        )
 
-        CustomTextField(
-            // Correo electrónico
-            value = uiState.email,
+        CustomTextField( // Correo electrónico
+            value = uiState.fields.email,
             onValueChange = onEmailChange,
-            enabled = !uiState.isLoading,
+            enabled = !uiState.formState.isLoading,
             keyboardType = KeyboardType.Email,
             placeholder = "Correo electrónico",
+            isError = uiState.fields.isEmailTouched && uiState.formState.emailErrorMessage != null,
+            errorMessage = if (uiState.fields.isEmailTouched) uiState.formState.emailErrorMessage else null
         )
 
         CustomTextField( // Contraseña
-            value = uiState.password,
+            value = uiState.fields.password,
             onValueChange = onPasswordChange,
             placeholder = "Digita tu contraseña",
             keyboardType = KeyboardType.Password,
-            visualTransformation = if (uiState.isPasswordVisible)
+            visualTransformation = if (uiState.formState.isPasswordVisible)
                 VisualTransformation.None
             else
                 PasswordVisualTransformation(),
-            enabled = !uiState.isLoading,
+            enabled = !uiState.formState.isLoading,
             trailingIcon = {
                 IconButton(onClick = onTogglePasswordVisibility) {
                     Icon(
                         painter = painterResource(
-                            id = if (uiState.isPasswordVisible)
+                            id = if (uiState.formState.isPasswordVisible)
                                 R.drawable.ic_visibility_off
                             else
                                 R.drawable.ic_visibility
                         ),
-                        contentDescription = if (uiState.isPasswordVisible)
+                        contentDescription = if (uiState.formState.isPasswordVisible)
                             "Ocultar contraseña"
                         else
                             "Mostrar contraseña"
                     )
                 }
-            }
+            },
+            isError = uiState.fields.isPasswordTouched && uiState.formState.passwordErrorMessage != null,
+            errorMessage = if (uiState.fields.isPasswordTouched) uiState.formState.passwordErrorMessage else null
         )
 
         CustomTextField( // Confirmar contraseña
-            value = uiState.confirmPassword,
+            value = uiState.fields.confirmPassword,
             onValueChange = onConfirmPasswordChange,
             placeholder = "Confirmar contraseña",
             keyboardType = KeyboardType.Password,
-            visualTransformation = if (uiState.isConfirmPasswordVisible)
+            visualTransformation = if (uiState.formState.isConfirmPasswordVisible)
                 VisualTransformation.None
             else
                 PasswordVisualTransformation(),
-            enabled = !uiState.isLoading,
+            enabled = !uiState.formState.isLoading,
             trailingIcon = {
                 IconButton(onClick = onToggleConfirmPasswordVisibility) {
                     Icon(
                         painter = painterResource(
-                            id = if (uiState.isConfirmPasswordVisible)
+                            id = if (uiState.formState.isConfirmPasswordVisible)
                                 R.drawable.ic_visibility_off
                             else
                                 R.drawable.ic_visibility
                         ),
-                        contentDescription = if (uiState.isConfirmPasswordVisible)
+                        contentDescription = if (uiState.formState.isConfirmPasswordVisible)
                             "Ocultar contraseña"
                         else
                             "Mostrar contraseña"
                     )
                 }
-            }
+            },
+            isError = uiState.fields.isConfirmPasswordTouched && uiState.formState.confirmPasswordErrorMessage != null,
+            errorMessage = if (uiState.fields.isConfirmPasswordTouched) uiState.formState.confirmPasswordErrorMessage else null
         )
         Spacer(modifier = Modifier.height(12.dp))
         CustomButton(
-            enabled = uiState.isSignUpEnabled && !uiState.isLoading,
-            isLoading = uiState.isLoading,
+            enabled = uiState.formState.isFormValid && !uiState.formState.isLoading,
+            isLoading = uiState.formState.isLoading,
             onClick = onSignUpClick,
             buttonText = "Registrarme",
             loadingText = "Cargando ..."

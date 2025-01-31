@@ -1,4 +1,4 @@
-package com.mennarsas.myapplication.models
+package com.mennarsas.myapplication.data.models
 
 import java.util.Calendar
 import java.util.Date

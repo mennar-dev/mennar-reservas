@@ -2,7 +2,7 @@ package com.mennarsas.myapplication.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mennarsas.myapplication.models.Ticket
+import com.mennarsas.myapplication.data.models.Ticket
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
